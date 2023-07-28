@@ -1,6 +1,6 @@
 
 
-name: Java CI with Maven
+name: Java Maven Build & Publish Artifact
 
 on:
   push:
