@@ -62,7 +62,7 @@ jobs:
   changeCreation:
      name: ServiceNow Change creation
      needs: Deploy-job
-     runs-on: ubutun-latest
+     runs-on: ubuntu-latest
 
      steps:     
       - name: ServiceNow Change creation
