@@ -38,6 +38,9 @@ jobs:
       with:
         name: Package
         path: staging
+
+  Deploy-job:
+    runs-on: ubuntu-latest 
     - name: Deploy to EC2 instance
       uses: easingthemes/ssh-deploy@main
       env:
