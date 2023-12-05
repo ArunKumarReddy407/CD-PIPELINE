@@ -45,8 +45,9 @@ jobs:
     steps:
       - name: Checkout the files
         uses: actions/checkout@v2
+        
       - name: upload the artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/download-artifact@v3
         with:
          name: Package
          path: staging
