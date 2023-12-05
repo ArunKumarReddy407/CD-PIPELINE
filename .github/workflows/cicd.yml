@@ -96,7 +96,7 @@ jobs:
           context-github: ${{ toJSON(github) }}
           job-name: 'Register Package'
           artifacts: '[{"name": "com:customactiondemo","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
-          package-name: 'registerpackage.war'
+          package-name: 'gs-maven-0.1.0.jar'
 
   changeCreation:
       name: ServiceNow Change creation
