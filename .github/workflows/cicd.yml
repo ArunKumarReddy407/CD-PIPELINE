@@ -46,11 +46,11 @@ jobs:
       - name: Checkout the files
         uses: actions/checkout@v2
         
-      - name: upload the artifact
+      - name: download the artifact
         uses: actions/download-artifact@v3
         with:
          name: Package
-         path: staging
+         path: /home/ubuntu/sampleapp/DEV/
 
       - name: Deploy to EC2 instance
         uses: easingthemes/ssh-deploy@main
@@ -59,5 +59,4 @@ jobs:
           REMOTE_HOST: ${{ secrets.EC2_HOST_DNS }}
           REMOTE_USER: ${{ secrets.EC2_USERNAME }}
           TARGET: /home/ubuntu/sampleapp/DEV/
-      - run: cp staging/*.jar $TARGET
 
