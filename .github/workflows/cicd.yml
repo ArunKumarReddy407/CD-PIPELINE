@@ -117,8 +117,7 @@ jobs:
           timeout: '3600'
           changeCreationTimeOut: '3600'
           abortOnChangeCreationFailure: true
-          abortOnChangeStepTimeout: true 
-          
+          abortOnChangeStepTimeout: true
   GetChangeDetails:
      name: Servicenow Get Change Details
      needs: changeCreation
