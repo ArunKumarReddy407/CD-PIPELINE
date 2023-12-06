@@ -131,7 +131,6 @@ jobs:
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
           change-details: '{"build_number":"7","pipeline_name":"Java Maven Build & Publish Artifact","stage_name":"changeCreation"}'
-
       - name: Output of GetChangeDetails
         run: echo "The Status of Update Change Request Details => ${{ steps.get.outputs.change-request-number }}"
   
