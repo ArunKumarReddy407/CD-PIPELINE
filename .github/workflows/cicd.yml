@@ -103,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ServiceNow Change
-        uses: ServiceNow/servicenow-devops-change@v1.34.2
+        uses: ServiceNow/servicenow-devops-change@v2.0.0
         with:
           
           devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
