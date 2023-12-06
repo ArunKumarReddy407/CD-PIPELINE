@@ -118,7 +118,7 @@ jobs:
           changeCreationTimeOut: '3600'
           abortOnChangeCreationFailure: true
           abortOnChangeStepTimeout: true
-          
+          deployment-gate: '{"environment":"deploymentgate","jobName":"ServiceNow Change creation"}'
   GetChangeDetails:
      name: Servicenow Get Change Details
      needs: changeCreation
