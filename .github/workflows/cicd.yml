@@ -98,8 +98,8 @@ jobs:
           artifacts: '[{"name": "org.springframework","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
           package-name: 'gs-maven-0.1.0.jar'
 
-  changeCreation:
-      name: ServiceNow Change creation
+  deploy:
+      name: deploy
       needs: Deploy-job
       runs-on: ubuntu-latest
 
@@ -118,10 +118,10 @@ jobs:
           changeCreationTimeOut: '3600'
           abortOnChangeCreationFailure: true
           abortOnChangeStepTimeout: true
-          deployment-gate: '{"environment":"deploymentgate","jobName":"ServiceNow Change creation"}'
+          deployment-gate: '{"environment":"deploymentgate","jobName":"deploy"}'
   GetChangeDetails:
      name: Servicenow Get Change Details
-     needs: changeCreation
+     needs: deploy
      runs-on: ubuntu-latest
      steps:     
       - name: ServiceNow Get Change
