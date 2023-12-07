@@ -108,8 +108,8 @@ jobs:
        with:
         action: create
         changeRequestMessage: "Deploy demo-app"
-        githubToken: ${{ secrets.GITHUB_TOKEN }}
-        serviceNowUrl: ${{ env.SNOW_URL }}
-        serviceNowUsername: ${{ env.SNOW_USERNAME }}
-        serviceNowPassword: ${{ secrets.SNOW_PASSWORD }}
+        githubToken: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN}}
+        serviceNowUrl: ${{ secrets.SN_INSTANCE_URL }}
+        serviceNowUsername: ${{ secrets.SNOW_USERNAME }}
+        serviceNowPassword: ${{ secrets.SNOW_PASSWORD  }}
   
