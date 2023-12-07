@@ -31,6 +31,8 @@ jobs:
      name: Deploy
      needs: createco
      runs-on: ubuntu-latest
+
+     steps:
         - name: Run deployment script
           run: echo "Deployment finished"
       
