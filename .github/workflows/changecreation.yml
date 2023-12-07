@@ -2,7 +2,11 @@ name: workflowToken
 
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ "master", "develop","feature-createchange" ]
+  pull_request:
+    branches: [ "master", "develop", "feature-createchange"]
+
     
 
 jobs:
