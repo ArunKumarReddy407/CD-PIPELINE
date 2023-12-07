@@ -47,7 +47,7 @@ jobs:
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
           job-name: 'publish-job'
-          xml-report-filename: staging /*.xml
+          xml-report-filename: staging/*.xml
 
   registerartifact:
      needs: publish-job
