@@ -56,7 +56,7 @@ jobs:
         run: mvn clean install
         
       - name: Run JUnit Tests
-        run: mvn test -Dmaven.test.failure.ignore=true surefire-report:report
+        run: mvn test
 
       - name: ServiceNow Test Action Report
         uses: ServiceNow/servicenow-devops-test-report@v2.0.0
