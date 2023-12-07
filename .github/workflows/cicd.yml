@@ -58,7 +58,7 @@ jobs:
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
           job-name: 'Build'
-          xml-report-filename: /home/runner/work/GitHubActions_Maven/GitHubActions_Maven/target/surefire-reports/*.xml
+          xml-report-filename: /home/runner/work/GitHubActions_Maven/GitHubActions_Maven/target/surefire-reports/TEST-hello.GreeterTest.xml
   registerartifact:
      needs: publish-job
      runs-on: ubuntu-latest
