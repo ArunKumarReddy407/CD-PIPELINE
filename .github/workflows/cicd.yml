@@ -42,6 +42,7 @@ jobs:
   uploadtest:
     name: uploadtest
     runs-on: ubuntu-latest
+    needs: publish-job
     steps:     
       - name: ServiceNow DevOps Unit Test Results
         uses: ServiceNow/servicenow-devops-test-report@v3.0.0
