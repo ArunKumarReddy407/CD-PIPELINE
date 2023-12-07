@@ -1,4 +1,4 @@
-name: Java Maven Build & Deploy
+name: Java-snow-CICD-poc
 
 on:
   push:
