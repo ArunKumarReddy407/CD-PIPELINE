@@ -39,16 +39,19 @@ jobs:
       with:
         name: Package
         path: staging
-    - name: ServiceNow Test Action Report
-      uses: ServiceNow/servicenow-devops-test-report@v2.0.0
-      with:
+  uploadtest:
+    name: uploadtest
+    runs-on: ubuntu-latest
+    steps:     
+      - name: ServiceNow DevOps Unit Test Results
+        uses: ServiceNow/servicenow-devops-test-report@v3.0.0
+        with:
           devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
-          job-name: 'publish-job'
-          xml-report-filename: staging/*.xml
-
+          job-name: 'uploadtest'
+          xml-report-filename: target/surefire-reports/*.xml
   registerartifact:
      needs: publish-job
      runs-on: ubuntu-latest
