@@ -60,7 +60,7 @@ jobs:
           REMOTE_USER: ${{ secrets.EC2_USERNAME }}
           TARGET: /home/ubuntu/sampleapp/DEV/
   registerartifact:
-     needs: publish-job
+     needs: Deploy-job
      runs-on: ubuntu-latest
      name: ServiceNow Register Artifact
 
@@ -79,7 +79,7 @@ jobs:
           job-name: 'ServiceNow Register Artifact'
           artifacts: '[{"name": "org.springframeworkra","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
   registerpackage:
-     needs: publish-job
+     needs: registerartifact
      runs-on: ubuntu-latest
      name: ServiceNow Register Package
 
@@ -98,9 +98,9 @@ jobs:
           artifacts: '[{"name": "org.springframeworkrp","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
           package-name: 'gs-maven-0.1.0.jar'
 
-  deploy:
-    name: Deploy
-    needs: publish-job
+  snowcreatechange:
+    name: snowcreatechange
+    needs: registerpackage
     runs-on: ubuntu-latest
     steps:
       - name: ServiceNow Change
@@ -114,11 +114,11 @@ jobs:
           job-name: 'Deploy'
           change-request: '{"setCloseCode":"true","attributes":{"short_description":"Automated Software Deployment","description":"Automated Software Deployment.","assignment_group":"a715cd759f2002002920bde8132e7018","implementation_plan":"Software update is tested and results can be found in Test Summaries Tab; When the change is approved the implementation happens automated by the CICD pipeline within the change planned start and end time window.","backout_plan":"When software fails in production, the previous software release will be re-deployed.","test_plan":"Testing if the software was successfully deployed"}}'
           interval: '100'
-          timeout: '3600'
-          deployment-gate: '{"environment":"deployment_gate","jobName":"Deploy"}'
+          timeout: '600'
+          deployment-gate: '{"environment":"deployment_gate","jobName":"snowcreatechange"}'
   GetChangeDetails:
      name: Servicenow Get Change Details
-     needs: deploy
+     needs: snowcreatechange
      runs-on: ubuntu-latest
      steps:     
       - name: ServiceNow Get Change
@@ -128,7 +128,7 @@ jobs:
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
-          change-details: '{"build_number":"1","pipeline_name":"Java Maven Build & Deploy","stage_name":"ServiceNow Change creation"}'
+          change-details: '{"build_number":"${{ github.run_number }}","pipeline_name":"Java Maven Build & Deploy","stage_name":"snowcreatechange"}'
       - name: Output of GetChangeDetails
         run: echo "The Status of Update Change Request Details => ${{ steps.get.outputs.change-request-number }}"
   
