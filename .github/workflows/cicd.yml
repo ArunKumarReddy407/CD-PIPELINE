@@ -48,7 +48,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - run: mvn --batch-mode --update-snapshots verify
+    - run: mvn -B package --file pom.xml
     - run: mvn test
     - name: ServiceNow Test Action Report
       uses: ServiceNow/servicenow-devops-test-report@v2.0.0
@@ -56,7 +56,8 @@ jobs:
           devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
-          job-name: 'Build'
+          context-github: ${{ toJSON(github) }}
+          job-name: 'uploadtest-job'
           xml-report-filename: /home/runner/work/GitHubActions_Maven/GitHubActions_Maven/target/surefire-reports/TEST-hello.GreeterTest.xml
   registerartifact:
      needs: publish-job
