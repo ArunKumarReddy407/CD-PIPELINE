@@ -80,7 +80,7 @@ jobs:
 
   Deploy-job-dev:
     runs-on: ubuntu-latest
-    needs: publish-job
+    needs: registerpackage
     steps:
       - name: Checkout the files
         uses: actions/checkout@v2
@@ -100,7 +100,7 @@ jobs:
           TARGET: /home/ubuntu/sampleapp/DEV/
   snowcreatechange:
     name: snowcreatechange
-    needs: registerpackage
+    needs: Deploy-job-dev
     runs-on: ubuntu-latest
     steps:
       - name: ServiceNow Change
