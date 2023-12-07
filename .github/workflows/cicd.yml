@@ -1,4 +1,4 @@
-name: Java-snow-CICD-poc
+name: JAVA-SNOW-CICD-POC
 
 on:
   push:
@@ -39,28 +39,8 @@ jobs:
         name: Package
         path: staging
 
-  Deploy-job:
-    runs-on: ubuntu-latest
-    needs: publish-job
-    steps:
-      - name: Checkout the files
-        uses: actions/checkout@v2
-        
-      - name: download the artifact
-        uses: actions/download-artifact@v3
-        with:
-         name: Package
-         path: staging
-
-      - name: Deploy to EC2 instance
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.EC2_HOST_DNS }}
-          REMOTE_USER: ${{ secrets.EC2_USERNAME }}
-          TARGET: /home/ubuntu/sampleapp/DEV/
   registerartifact:
-     needs: Deploy-job
+     needs: publish-job
      runs-on: ubuntu-latest
      name: ServiceNow Register Artifact
 
@@ -98,6 +78,26 @@ jobs:
           artifacts: '[{"name": "org.springframeworkrp","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
           package-name: 'gs-maven-0.1.0.jar'
 
+  Deploy-job-dev:
+    runs-on: ubuntu-latest
+    needs: publish-job
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
+        
+      - name: download the artifact
+        uses: actions/download-artifact@v3
+        with:
+         name: Package
+         path: staging
+
+      - name: Deploy to EC2 instance
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.EC2_HOST_DNS }}
+          REMOTE_USER: ${{ secrets.EC2_USERNAME }}
+          TARGET: /home/ubuntu/sampleapp/DEV/
   snowcreatechange:
     name: snowcreatechange
     needs: registerpackage
@@ -132,3 +132,23 @@ jobs:
       - name: Output of GetChangeDetails
         run: echo "The Status of Update Change Request Details => ${{ steps.get.outputs.change-request-number }}"
   
+  Deploy-job-prod:
+    runs-on: ubuntu-latest
+    needs: GetChangeDetails
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
+        
+      - name: download the artifact
+        uses: actions/download-artifact@v3
+        with:
+         name: Package
+         path: staging
+
+      - name: Deploy to EC2 instance
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.EC2_HOST_DNS }}
+          REMOTE_USER: ${{ secrets.EC2_USERNAME }}
+          TARGET: /home/ubuntu/sampleapp/PROD/
