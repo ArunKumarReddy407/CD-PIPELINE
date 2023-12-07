@@ -49,7 +49,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     - run: mvn --batch-mode --update-snapshots verify
-    - run: mvn test
+    - run: mvn test -Dmaven.test.failure.ignore=true surefire-report:report
     - name: ServiceNow Test Action Report
       uses: ServiceNow/servicenow-devops-test-report@v2.0.0
       with:
