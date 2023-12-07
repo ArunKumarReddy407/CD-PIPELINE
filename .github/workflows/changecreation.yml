@@ -8,11 +8,11 @@ on:
 
 jobs:
 
-  deploy:
-    name: Deploy
+  createco:
+    name: ServiceNow create change
     runs-on: ubuntu-latest
     steps:
-      - name: ServiceNow Change
+      - name: ServiceNow Change create
         uses: ServiceNow/servicenow-devops-change@v3.0.0
         with:
           
@@ -26,3 +26,13 @@ jobs:
           timeout: '120'
           abortOnChangeCreationFailure: true
           abortOnChangeStepTimeout: true
+          
+  deploy:
+     name: Deploy
+     needs: createco
+     runs-on: ubuntu-latest
+        - name: Run deployment script
+          run: echo "Deployment finished"
+      
+
+          
