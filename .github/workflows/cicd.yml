@@ -51,7 +51,7 @@ jobs:
     - run: mvn -B package --file pom.xml
     - run: mvn test
     - name: ServiceNow Test Action Report
-      uses: ServiceNow/servicenow-devops-test-report@v2.0.0
+      uses: ServiceNow/servicenow-devops-test-report@v3.0.0
       with:
           devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
@@ -60,7 +60,7 @@ jobs:
           job-name: 'uploadtest-job'
           xml-report-filename: /home/runner/work/GitHubActions_Maven/GitHubActions_Maven/target/surefire-reports/TEST-hello.GreeterTest.xml
   registerartifact:
-     needs: publish-job
+     needs: uploadtest-job
      runs-on: ubuntu-latest
      name: ServiceNow Register Artifact
 
