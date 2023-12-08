@@ -49,7 +49,6 @@ jobs:
           devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
-          context-github: ${{ toJSON(github) }}
           job-name: 'publish-job'
           xml-report-filename: staging/TEST-hello.GreeterTest.xml
           
