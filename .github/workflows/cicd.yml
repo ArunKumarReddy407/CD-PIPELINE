@@ -37,7 +37,7 @@ jobs:
           distribution: 'temurin'
       - run: mvn --batch-mode --update-snapshots verify
       - run: mvn test
-      - run: mkdir staging && cp target/*.jar staging && cp target/surefire-reports/*.xml staging && cp target/surefire-reports/TEST-hello.GreeterTest.xml target/surefire-reports/testng-results.xml
+      - run: mkdir staging && cp target/*.jar staging && cp target/surefire-reports/*.xml staging && cp target/surefire-reports/TEST-hello.GreeterTest.xml target/surefire-reports/testng-results.xml && ls -l staging/ && ls -l target/surefire-reports/ 
       - uses: actions/upload-artifact@v3
         with:
            name: Package
