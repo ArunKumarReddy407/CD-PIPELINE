@@ -34,12 +34,20 @@ jobs:
         distribution: 'temurin'
     - run: mvn --batch-mode --update-snapshots verify
     - run: mvn test
-    - run: mkdir staging && cp target/*.jar staging && cp target/surefire-reports/*.xml staging 
+    - run: mkdir staging && cp target/*.jar staging && cp target/surefire-reports/*.xml staging && cp target/surefire-reports/*.xml target/surefire-reports/testng-results.xml
     - uses: actions/upload-artifact@v3
       with:
         name: Package
         path: staging
-
+    - name: ServiceNow Test Action Report
+      uses: ServiceNow/servicenow-devops-test-report@v2.0.0
+      with:
+          devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
+          instance-url: ${{ secrets.SN_INSTANCE_URL }}
+          tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+          context-github: ${{ toJSON(github) }}
+          job-name: 'Build'
+          xml-report-filename: target/surefire-reports/testng-results.xml
   registerartifact:
      needs: publish-job
      runs-on: ubuntu-latest
