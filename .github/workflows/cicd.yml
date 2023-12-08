@@ -2,9 +2,9 @@ name: workflowToken
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "snowco-test" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "snowco-test" ]
 
 jobs:
   build:
