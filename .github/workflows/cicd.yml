@@ -45,6 +45,7 @@ jobs:
 
       - name: ServiceNow Test Action Report
         uses: ServiceNow/servicenow-devops-test-report@v2.0.0
+        needs: publish-job
         with:
           devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
