@@ -37,7 +37,7 @@ jobs:
           distribution: 'temurin'
       - run: mvn --batch-mode --update-snapshots verify
       - run: mvn test
-      - run: mkdir staging && cp target/*.jar staging && cp target/surefire-reports/*.xml staging
+      - run: mkdir staging && cp target/*.jar staging && cp target/surefire-reports/*.xml staging && cp target/surefire-reports/TEST-hello.GreeterTest.xml target/surefire-reports/testng-results.xml
       - uses: actions/upload-artifact@v3
         with:
            name: Package
@@ -51,5 +51,5 @@ jobs:
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
           job-name: 'Build'
-          xml-report-filename: target/surefire-reports/testng-results.xml
+          xml-report-filename: target/surefire-reports/*.xml
           
