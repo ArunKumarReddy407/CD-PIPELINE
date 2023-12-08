@@ -1,27 +1,30 @@
-name: Java Maven Build & Deploy
+name: workflowToken
+
 
 on:
   push:
-    branches: [ "master", "develop" ]
+    branches: [ "master", "develop", "feature-testchange" ]
   pull_request:
     branches: [ "master", "develop"]
-
+    
 jobs:
-
-  deploy:
-    name: Deploy
+  build_test:
     runs-on: ubuntu-latest
     steps:
-      - name: ServiceNow Change
-        uses: ServiceNow/servicenow-devops-change@v2.0.0
-        with:
-          
-          devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
-          instance-url: ${{ secrets.SN_INSTANCE_URL }}
-          tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
-          context-github: ${{ toJSON(github) }}
-          job-name: 'Deploy'
-          change-request: '{"setCloseCode":"true","attributes":{"short_description":"Automated Software Deployment","description":"Automated Software Deployment.","assignment_group":"a715cd759f2002002920bde8132e7018","implementation_plan":"Software update is tested and results can be found in Test Summaries Tab; When the change is approved the implementation happens automated by the CICD pipeline within the change planned start and end time window.","backout_plan":"When software fails in production, the previous software release will be re-deployed.","test_plan":"Testing if the software was successfully deployed"}}'
-          interval: '100'
-          timeout: '3600'
-          deployment-gate: '{"environment":"deploymentgate","jobName":"Deploy"}'
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+        cache: maven
+    - name: create a change 
+      run: |
+       curl "https://dev127764.service-now.com/api/sn_chg_rest/v1/change" --request POST --header "Accept:application/json" --header "Content-Type:application/json" \
+       --data "{
+       \"chg_model\" : \"Standard\",
+       \"description\" : \"Describes the change request.\",
+       \"short_description\" : \"My change request\",
+       \"type\" : \"Standard\"
+       }" \
+       --user "${{ secrets.SNOW_USERNAME }}":"${{ secrets.SNOW_PASSWORD }}"
