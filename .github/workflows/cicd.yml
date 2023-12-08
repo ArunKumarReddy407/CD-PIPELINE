@@ -2,9 +2,9 @@ name: JAVA-SNOW-CICD-POC
 
 on:
   push:
-    branches: [ "master", "develop","feature-createchange" ]
+    branches: [ "snowco-test" ]
   pull_request:
-    branches: [ "master", "develop", "feature-createchange"]
+    branches: [ "snowco-test"]
 
 jobs:
   build_test:
