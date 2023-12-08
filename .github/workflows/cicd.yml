@@ -38,9 +38,9 @@ jobs:
       - run: mvn test
       - run: mkdir staging && cp target/*.jar staging && cp target/surefire-reports/*.xml staging && cp target/surefire-reports/TEST-hello.GreeterTest.xml target/surefire-reports/testng-results.xml
       - uses: actions/upload-artifact@v3
-      with:
-        name: Package
-        path: staging
+        with:
+           name: Package
+           path: staging
 
       - name: ServiceNow Test Action Report
         uses: ServiceNow/servicenow-devops-test-report@v2.0.0
