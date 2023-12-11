@@ -1,0 +1,37 @@
+# This is a basic workflow to help you get started with Actions..
+ 
+name: Change_Request_Fix
+ 
+# Controls when the workflow will run
+on:
+ # Triggers the workflow on push or pull request events but only for the "main" branch
+ push:
+   branches: [ "main" ]
+ pull_request:
+   branches: [ "main" ]
+ 
+ # Allows you to run this workflow manually from the Actions tab
+ workflow_dispatch:
+ 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+ # This workflow contains a single job called "build"
+ deploy-change:
+   name: ChangeRequest
+   runs-on: ubuntu-latest
+   steps:   
+     - name: ServiceNow Change
+       uses: ServiceNow/servicenow-devops-change@v3.0.0
+       with:
+         devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
+         instance-url: ${{ secrets.SN_INSTANCE_URL }}
+         tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+         context-github: ${{ toJSON(github) }}
+         job-name: 'ChangeRequest'
+         change-request: '{"setCloseCode":"true","autoCloseChange":true,"attributes":{"short_description":"Automated Software Deployment","description":"Automated Software Deployment.","assignment_group":"a715cd759f2002002920bde8132e7018","implementation_plan":"Software update is tested and results can be found in Test Summaries Tab; When the change is approved the implementation happens automated by the CICD pipeline within the change planned start and end time window.","backout_plan":"When software fails in production, the previous software release will be re-deployed.","test_plan":"Testing if the software was successfully deployed"}}'
+         interval: '100'
+         timeout: '3600'
+         changeCreationTimeOut: '3600'
+         abortOnChangeCreationFailure: true
+         abortOnChangeStepTimeout: true
+         # deployment-gate: '{"environment":"deploymentgate","jobName":"ChangeRequest"}'
