@@ -9,7 +9,7 @@ on:
    branches: [ "main", "feature-createchange" ]
   
  pull_request:
-   branches: [ "main" ]
+   branches: [ "main", "feature-createchange"  ]
  
  # Allows you to run this workflow manually from the Actions tab
  workflow_dispatch:
