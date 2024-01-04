@@ -1,5 +1,6 @@
 name: JAVA-SNOW-CICD-POC
 
+
 on:
   push:
     branches: [ "master", "develop" ]
