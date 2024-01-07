@@ -45,8 +45,13 @@ jobs:
      needs: publish-job
      runs-on: ubuntu-latest
      name: ServiceNow Register Artifact
-
+   
      steps:
+      - name: Declare some variables
+        shell: bash
+        run: |
+         echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+         echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -59,7 +64,7 @@ jobs:
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
           job-name: 'ServiceNow Register Artifact'
-          artifacts: '[{"name": "org.springframeworkra","version": "${{ env.sha_short }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
+          artifacts: '[{"name": "org.springframeworkra","version": "${{ env.sha_short }}","semanticVersion": "${{ env.sha_short }}","repositoryName": "${{ github.repository }}"}]'
   registerpackage:
      needs: registerartifact
      runs-on: ubuntu-latest
