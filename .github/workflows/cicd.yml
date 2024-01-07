@@ -59,7 +59,7 @@ jobs:
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
           job-name: 'ServiceNow Register Artifact'
-          artifacts: '[{"name": "org.springframeworkra","version": "$(git rev-parse --short "$GITHUB_SHA")","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
+          artifacts: '[{"name": "org.springframeworkra","version": "${{ env.sha_short }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
   registerpackage:
      needs: registerartifact
      runs-on: ubuntu-latest
