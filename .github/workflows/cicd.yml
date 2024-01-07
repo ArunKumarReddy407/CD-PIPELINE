@@ -51,14 +51,14 @@ jobs:
      name: ServiceNow Register Artifact
    
      steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Declare some variables
         shell: bash
         run: |
          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
          echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: ServiceNow Register Artifact
         uses: ServiceNow/servicenow-devops-register-artifact@v2.0.0
         id: update
