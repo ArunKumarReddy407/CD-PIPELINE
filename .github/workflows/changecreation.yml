@@ -18,7 +18,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-
+    - name: Another step
+      run: |
+       echo "Branch: ${{ env.branch }}"
+       echo "Sha: ${{ env.sha_short }}"
     - name: Set Node.js 14.x
       uses: actions/setup-node@v3
       with:
