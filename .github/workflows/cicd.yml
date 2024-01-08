@@ -60,7 +60,10 @@ jobs:
          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
          echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
       - name: Extract Version
-        run: echo "{name}={version::$(grep -oP '<version>\K[^<]+' pom.xml | head -n1)"} >> $GITHUB_OUTPUT
+        run: |
+          versions=$(grep -oP'<version>\K[^<]+' pom.xml)
+          echo " Version extrated from pom.xml: $version"
+          
         
       - name: ServiceNow Register Artifact
         uses: ServiceNow/servicenow-devops-register-artifact@v2.0.0
