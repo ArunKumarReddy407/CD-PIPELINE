@@ -64,12 +64,8 @@ jobs:
           versions=$(grep -oP '<version>\K[^<]+' pom.xml)
           echo " Version extrated from pom.xml: $version"
           cat pom.xml | grep "^    <version>.*</version>$" | awk -F'[><]' '{print $3}'
-      - name: get-pom-version
-        id: pom-version
-        uses: PERES-Richard/maven-get-version-action@v3.0.0
-
-      - name: Print Maven POM project version
-        run: echo "version = ${{ steps.pom-version.outputs.version }}"
+          WEBAPI_VER=$(sed -n 's,.*<version>\(.*\)</version>.*,\1,p' pom.xml | head -1)
+    
         
       - name: ServiceNow Register Artifact
         uses: ServiceNow/servicenow-devops-register-artifact@v2.0.0
