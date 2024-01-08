@@ -3,7 +3,7 @@ name: workflowToken
 
 on:
   push:
-    branches: [ "master", "develop", "feature-testgithash"  ]
+    branches: [ "master", "develop" ]
   pull_request:
     branches: [ "master", "develop"]
 
