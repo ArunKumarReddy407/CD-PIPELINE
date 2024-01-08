@@ -61,7 +61,7 @@ jobs:
          echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
       - name: Extract Version
         run: |
-          versions=$(grep -oP'<version>\K[^<]+' pom.xml)
+          versions=$(grep -oP '<version>\K[^<]+' pom.xml)
           echo " Version extrated from pom.xml: $version"
           
         
