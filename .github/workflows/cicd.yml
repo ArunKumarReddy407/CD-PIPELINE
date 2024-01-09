@@ -61,17 +61,10 @@ jobs:
          echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
       - name: Extract Version
         run: |
-          ls -la
-          pwd
-          cat pom.xml
-          versions=$(grep -oP '<version>\K[^<]+' pom.xml)
+  
+          version=$(sed -n 's,.*<version>\(.*\)</version>.*,\1,p' pom.xml | head -1)
           echo " Version extrated from pom.xml: $version"
-          cat pom.xml | grep "^    <version>.*</version>$" | awk -F'[><]' '{print $3}'
-          WEBAPI_VER=$(sed -n 's,.*<version>\(.*\)</version>.*,\1,p' pom.xml | head -1)
-          echo " Version extrated from pom.xml: $WEBAPI_VER"
-          grep version pom.xml | grep -v -e '<?xml|~'| head -n 1 | sed 's/[[:space:]]//g' | sed -E 's/<.{0,1}version>//g' | awk '{print $1}'
-          
-        
+               
       - name: ServiceNow Register Artifact
         uses: ServiceNow/servicenow-devops-register-artifact@v2.0.0
         id: update
