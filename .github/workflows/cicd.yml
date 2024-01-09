@@ -64,6 +64,7 @@ jobs:
   
           version=$(sed -n 's,.*<version>\(.*\)</version>.*,\1,p' pom.xml | head -1)
           echo " Version extrated from pom.xml: $version"
+          echo "pomversion=$(echo $version})" >> "$GITHUB_ENV"
                
       - name: ServiceNow Register Artifact
         uses: ServiceNow/servicenow-devops-register-artifact@v2.0.0
@@ -74,7 +75,7 @@ jobs:
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
           job-name: 'ServiceNow Register Artifact'
-          artifacts: '[{"name": "org.springframeworkra","version": "${{ env.sha_short }}_${{ env.branch }}","semanticVersion": "${{ env.sha_short }}","repositoryName": "${{ github.repository }}"}]'
+          artifacts: '[{"name": "org.springframeworkra","version": "${{ env.pomversion}}","semanticVersion": "${{ env.pomversion}}","repositoryName": "${{ github.repository }}"}]'
   registerpackage:
      needs: registerartifact
      runs-on: ubuntu-latest
@@ -92,5 +93,5 @@ jobs:
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
           job-name: 'Register Package'
-          artifacts: '[{"name": "org.springframeworkrp","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
+          artifacts: '[{"name": "org.springframeworkrp","version": "${{ env.pomversion}}","semanticVersion": "${{ env.pomversion}}","repositoryName": "${{ github.repository }}"}]'
           package-name: 'gs-maven-0.1.0.jar'
