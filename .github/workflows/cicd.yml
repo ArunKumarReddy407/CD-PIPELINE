@@ -68,7 +68,7 @@ jobs:
           echo " Version extrated from pom.xml: $version"
           cat pom.xml | grep "^    <version>.*</version>$" | awk -F'[><]' '{print $3}'
           WEBAPI_VER=$(sed -n 's,.*<version>\(.*\)</version>.*,\1,p' pom.xml | head -1)
-          echo "version=$(WEBAPI_VER)" >> "$GITHUB_ENV"
+          echo " Version extrated from pom.xml: $WEBAPI_VER"
         
       - name: ServiceNow Register Artifact
         uses: ServiceNow/servicenow-devops-register-artifact@v2.0.0
