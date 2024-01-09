@@ -54,14 +54,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Declare some variables
-        shell: bash
-        run: |
-         echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-         echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
       - name: Extract Version
         run: |
-  
           version=$(sed -n 's,.*<version>\(.*\)</version>.*,\1,p' pom.xml | head -1)
           echo " Version extrated from pom.xml: $version"
           echo "pomversion=$(echo $version})" >> "$GITHUB_ENV"
